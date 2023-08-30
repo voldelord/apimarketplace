@@ -6,6 +6,7 @@ import { OrdersModule } from './orders/orders.module';
 import { CategoriesModule } from './categories/categories.module';
 import { RatingsModule } from './ratings/ratings.module';
 import { ShippingsModule } from './shippings/shippings.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ShippingsModule } from './shippings/shippings.module';
     CategoriesModule,
     RatingsModule,
     ShippingsModule,
+    NotificationsModule,
   ],
   controllers: [],
   providers: [],

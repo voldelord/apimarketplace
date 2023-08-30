@@ -1,25 +1,22 @@
 import {
   Column,
-  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class Shipping {
+export class Notification {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  name: string;
+  message: string;
 
   @Column()
-  dateshipping: Date;
-
-  @Column()
-  total: number;
+  type: string;
 
   @CreateDateColumn({
     name: 'created_at',
