@@ -7,6 +7,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { RatingsModule } from './ratings/ratings.module';
 import { ShippingsModule } from './shippings/shippings.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { PaymentsModule } from './payments/payments.module';
+import { SellerratingModule } from './sellerrating/sellerrating.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { NotificationsModule } from './notifications/notifications.module';
     RatingsModule,
     ShippingsModule,
     NotificationsModule,
+    PaymentsModule,
+    SellerratingModule,
   ],
   controllers: [],
   providers: [],

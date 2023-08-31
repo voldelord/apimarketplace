@@ -1,26 +1,60 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Notification } from './entities/notification.entity';
 import { CreateNotificationDto } from './dto/create-notification.dto';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
 
 @Injectable()
 export class NotificationsService {
-  create(createNotificationDto: CreateNotificationDto) {
-    return 'This action adds a new notification';
+  constructor(
+    @InjectRepository(Notification)
+    private notificationRepository: Repository<Notification>,
+  ) {}
+
+  async createNotification(notification: CreateNotificationDto) {
+    const newNotification = this.notificationRepository.create(notification);
+    return this.notificationRepository.save(newNotification);
   }
 
-  findAll() {
-    return `This action returns all notifications`;
+  getNotifications() {
+    return this.notificationRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} notification`;
+  async getNotification(id: number) {
+    const notificationFound = await this.notificationRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!notificationFound) {
+      return new HttpException('Notification Not Found', HttpStatus.NOT_FOUND);
+    }
+    return notificationFound;
   }
 
-  update(id: number, updateNotificationDto: UpdateNotificationDto) {
-    return `This action updates a #${id} notification`;
+  async deleteNotification(id: number) {
+    const result = await this.notificationRepository.delete({ id });
+
+    if (result.affected === 0) {
+      return new HttpException('Notification not found', HttpStatus.NOT_FOUND);
+    }
+
+    return result;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} notification`;
+  async updateNotification(id: number, notification: UpdateNotificationDto) {
+    const notificationFound = await this.notificationRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!notificationFound) {
+      return new HttpException('Notification Not Found', HttpStatus.NOT_FOUND);
+    }
+    const updatedNotification = Object.assign(notificationFound, notification);
+    return this.notificationRepository.save(updatedNotification);
   }
 }
