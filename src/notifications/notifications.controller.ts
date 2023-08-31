@@ -1,34 +1,47 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { NotificationsService } from './notifications.service';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Param,
+  Delete,
+  ParseIntPipe,
+  Patch,
+} from '@nestjs/common';
 import { CreateNotificationDto } from './dto/create-notification.dto';
+import { NotificationsService } from './notifications.service';
+import { Notification } from './entities/notification.entity';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
 
 @Controller('notifications')
 export class NotificationsController {
-  constructor(private readonly notificationsService: NotificationsService) {}
-
-  @Post()
-  create(@Body() createNotificationDto: CreateNotificationDto) {
-    return this.notificationsService.create(createNotificationDto);
-  }
+  constructor(private notificationsService: NotificationsService) {}
 
   @Get()
-  findAll() {
-    return this.notificationsService.findAll();
+  getNotifications(): Promise<Notification[]> {
+    return this.notificationsService.getNotifications();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.notificationsService.findOne(+id);
+  getNotification(@Param('id', ParseIntPipe) id: number) {
+    return this.notificationsService.getNotification(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNotificationDto: UpdateNotificationDto) {
-    return this.notificationsService.update(+id, updateNotificationDto);
+  @Post()
+  createNotification(@Body() newNotification: CreateNotificationDto) {
+    return this.notificationsService.createNotification(newNotification);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.notificationsService.remove(+id);
+  deleteNotification(@Param('id', ParseIntPipe) id: number) {
+    return this.notificationsService.deleteNotification(id);
+  }
+
+  @Patch(':id')
+  updateNotification(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() notification: UpdateNotificationDto,
+  ) {
+    return this.notificationsService.updateNotification(id, notification);
   }
 }

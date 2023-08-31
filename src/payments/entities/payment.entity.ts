@@ -8,42 +8,15 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class User {
+export class Payment {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  name: string;
+  mount: number;
 
   @Column()
-  lastname: string;
-
-  @Column()
-  email: string;
-
-  @Column()
-  password: string;
-
-  @Column()
-  birthdate: Date;
-
-  @Column()
-  country: string;
-
-  @Column()
-  city: string;
-
-  @Column()
-  addres: string;
-
-  @Column()
-  codezip: number;
-
-  @Column()
-  phone: number;
-
-  @Column()
-  role: number;
+  paymentdate: Date;
 
   @CreateDateColumn({
     name: 'created_at',
